@@ -686,25 +686,7 @@ end)
 UpdateEmoteList(AllEmotesTab)
 
 LocalPlayer.CharacterAdded:Connect(CharacterAdded)
--- Add a Stop Emoting Button
-local StopButton = Instance.new("TextButton")
-StopButton.BorderSizePixel = 0
-StopButton.AnchorPoint = Vector2.new(0.5, 0.5)
-StopButton.Position = UDim2.new(0.9, 0, 0.05, 0)
-StopButton.Size = UDim2.new(0.15, 0, 0.1, 0)
-StopButton.TextScaled = true
-StopButton.TextColor3 = Color3.new(1, 1, 1)
-StopButton.BackgroundColor3 = Color3.new(1, 0, 0)
-StopButton.BackgroundTransparency = 0.3
-StopButton.Text = "Stop Emote"
-StopButton.MouseButton1Click:Connect(function()
-    local Humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-    if Humanoid then
-        Humanoid:PlayEmote("Idle")
-    end
-end)
-Corner:Clone().Parent = StopButton
-StopButton.Parent = BackFrame
+
 if IY_LOADED and not _G.IY_DEBUG == true then
     -- error("Infinite Yield is already running!", 0)
     return
