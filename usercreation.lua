@@ -2,7 +2,7 @@ local StarterGui = game:GetService("StarterGui")
 
         task.wait(0.1)
         StarterGui:SetCore("SendNotification", {
-            Title = "Key is "auto"", 
+            Title = "Key is auto", 
             Text = "Have fun!", 
             Duration = 5 
         })
