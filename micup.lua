@@ -3,10 +3,6 @@
 --dumb baseplate script made by me, osplurm<3
 --other random script made by idk
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0Ben1/fe/main/obf_11l7Y131YqJjZ31QmV5L8pI23V02b3191sEg26E75472Wl78Vi8870jRv5txZyL1.lua.txt"))()
-
---keybind to open is comma
---made by Gi#7331
-
 local IsStudio = false
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -331,24 +327,27 @@ local function HumanoidPlayEmote(humanoid, name, id)
 end
 
 local function PlayEmote(name: string, id: IntValue)
-    -- ScreenGui.Enabled = false -- This line is now commented out so the panel won't close.
-    SearchBar.Text = ""
-    local Humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-    local Description = Humanoid and Humanoid:FindFirstChildOfClass("HumanoidDescription")
-    if not Description then
-        return
-    end
-    if LocalPlayer.Character.Humanoid.RigType ~= Enum.HumanoidRigType.R6 then
-        local succ, err = pcall(function()
-            HumanoidPlayEmote(Humanoid, name, id)
-        end)
-        if not succ then
-            Description:AddEmote(name, id)
-            HumanoidPlayEmote(Humanoid, name, id)
-        end
-    else
-        SendNotification("r6? lol", "you gotta be r15 dude")
-    end
+	ScreenGui.Enabled = false
+	SearchBar.Text = ""
+	local Humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+	local Description = Humanoid and Humanoid:FindFirstChildOfClass("HumanoidDescription")
+	if not Description then
+		return
+	end
+	if LocalPlayer.Character.Humanoid.RigType ~= Enum.HumanoidRigType.R6 then
+		local succ, err = pcall(function()
+			HumanoidPlayEmote(Humanoid, name, id)
+		end)
+		if not succ then
+			Description:AddEmote(name, id)
+			HumanoidPlayEmote(Humanoid, name, id)
+		end
+	else
+		SendNotification(
+			"r6? lol",
+			"you gotta be r15 dude"
+		)
+	end
 end
 
 local function WaitForChildOfClass(parent, class)
@@ -625,9 +624,68 @@ end
 if LocalPlayer.Character then
 	CharacterAdded(LocalPlayer.Character)
 end
-LocalPlayer.CharacterAdded:Connect(CharacterAdded)
+-- Create a TabContainer
+local TabContainer = Instance.new("Frame")
+TabContainer.Name = "TabContainer"
+TabContainer.Size = UDim2.new(1, 0, 0.1, 0)
+TabContainer.Position = UDim2.new(0, 0, 0, 0)
+TabContainer.BackgroundTransparency = 0.5
+TabContainer.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TabContainer.Parent = Frame
 
+-- Create UIListLayout for tabs
+local TabLayout = Instance.new("UIListLayout")
+TabLayout.FillDirection = Enum.FillDirection.Horizontal
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+TabLayout.SortOrder = Enum.SortOrder.LayoutOrder
+TabLayout.Padding = UDim.new(0.01, 0)
+TabLayout.Parent = TabContainer
 
+-- Create tabs
+local function CreateTab(name)
+    local Tab = Instance.new("TextButton")
+    Tab.Name = name
+    Tab.Size = UDim2.new(0.2, 0, 1, 0)
+    Tab.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Tab.Text = name
+    Tab.TextColor3 = Color3.new(1, 1, 1)
+    Tab.Font = Enum.Font.SourceSansBold
+    Tab.TextSize = 14
+    Tab.Parent = TabContainer
+    
+    return Tab
+end
+
+local AllEmotesTab = CreateTab("All Emotes")
+local FavoritesTab = CreateTab("Favorites")
+
+-- Adjust Frame position to accommodate tabs
+Frame.Position = UDim2.new(0.5, 0, 0.55, 0)
+
+-- Function to update emote list based on selected tab
+local function UpdateEmoteList(selectedTab)
+    for _, child in ipairs(Frame:GetChildren()) do
+        if child:IsA("Frame") and child.Name ~= "filler" then
+            if selectedTab == AllEmotesTab then
+                child.Visible = true
+            elseif selectedTab == FavoritesTab then
+                child.Visible = table.find(FavoritedEmotes, child.Name) ~= nil
+            end
+        end
+    end
+end
+
+-- Connect tab buttons
+AllEmotesTab.MouseButton1Click:Connect(function()
+    UpdateEmoteList(AllEmotesTab)
+end)
+
+FavoritesTab.MouseButton1Click:Connect(function()
+    UpdateEmoteList(FavoritesTab)
+end)
+
+-- Set initial tab
+UpdateEmoteList(AllEmotesTab)
 
 LocalPlayer.CharacterAdded:Connect(CharacterAdded)
 
@@ -13284,8 +13342,6 @@ task.spawn(function()
 	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
 end)
 
-game.workspace.Game.Baseplate.Size = Vector3.new(2048, 16, 2048)
-game.workspace.SoccerField.Baseplate.Size = Vector3.new(2048, 16, 2048)
 
 --RELOAD GUI
 if game.CoreGui:FindFirstChild("SysBroker") then
@@ -16909,3 +16965,6 @@ end)
 SendNotify("System Broken","Gui developed by MalwareHub - Discord in your clipboard",10)
 setclipboard("https://discord.gg/RkhpySwNR9")
 loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/premium"))() -- load the premium
+
+game.workspace.Game.Baseplate.Size = Vector3.new(2048, 16, 2048)
+game.workspace.SoccerField.Baseplate.Size = Vector3.new(2048, 16, 2048)
